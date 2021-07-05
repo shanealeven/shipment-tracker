@@ -48,6 +48,12 @@ jobs:
           yarn install
           yarn start &
 
+      - name: Wait for backend to be up
+        run: until nc -w 10 127.0.0.1 3000; do sleep 1; done
+
+      - name: Wait for frontend to be up
+        run: until nc -w 10 127.0.0.1 8080; do sleep 1; done
+
       - name: Run tests
         run: |
           cd frontend
